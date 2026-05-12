@@ -1,0 +1,66 @@
+﻿clean_train_category_from_name,train_service_group,service_description
+ICE,Long Distance,Intercity-Express / high-speed long-distance service
+IC,Long Distance,Intercity long-distance service
+EC,Long Distance,EuroCity long-distance international service
+ECE,Long Distance,EuroCity Express long-distance service
+TGV,Long Distance,High-speed long-distance international service
+THA,Long Distance,Thalys / international high-speed service
+FLX,Long Distance,FlixTrain / long-distance service
+WB,Long Distance,WESTbahn / long-distance service
+WEST,Long Distance,WESTbahn / long-distance service
+RJ,International / Special,Railjet international service
+RJX,International / Special,Railjet Express international service
+D,International / Special,Special or long-distance train category
+DN,International / Special,Special or long-distance train category
+DPF,International / Special,Special passenger train category
+NJ,Night Train,Nightjet / overnight train service
+EN,Night Train,EuroNight / overnight train service
+ICN,Night Train,InterCity Night / overnight service
+RE,Regional,Regional Express service
+RB,Regional,Regionalbahn stopping service
+IRE,Regional,Interregio-Express regional service
+MEX,Regional,Metropolexpress regional service
+FEX,Regional,Airport Express / regional service
+REX,Regional,Regional Express service
+RRB,Regional,Regional railway service
+RSM,Regional,Regional railway service
+RSU,Regional,Regional railway service
+RT,Regional,Regional train/service category
+RTB,Regional,Regional train/service category
+DPN,Regional,Local/regional passenger train category
+NWB,Regional,NordWestBahn / regional service
+WFB,Regional,WestfalenBahn / regional service
+ERB,Regional,Eurobahn / regional service
+HLB,Regional,Hessische Landesbahn / regional service
+BRB,Regional,Bayerische Regiobahn / regional service
+SWE,Regional,Regional railway service
+VIA,Regional,Regional railway service
+ALX,Regional,Alex regional/long-distance regional service
+OPB,Regional,Oberpfalzbahn / regional service
+MRB,Regional,Mitteldeutsche Regiobahn / regional service
+ODEG,Regional,Ostdeutsche Eisenbahn / regional service
+NEB,Regional,Niederbarnimer Eisenbahn / regional service
+ME,Regional,Metronom / regional service
+ENNO,Regional,enno / regional service
+ABR,Regional,Abellio / regional service
+VIAS,Regional,VIAS / regional service
+AKN,Regional,Regional railway service
+BOB,Regional,Bayerische Oberlandbahn / regional service
+MER,Regional,Meridian / regional service
+SOB,Regional,Südostbayernbahn / regional service
+AVG,Regional,Albtal-Verkehrs-Gesellschaft / regional service
+S,S-Bahn,S-Bahn urban/suburban rail service
+SBB,S-Bahn / Regional,Swiss Federal Railways or S-Bahn/regional service
+SB,S-Bahn / Regional,S-Bahn or regional service
+U,Urban Transit,U-Bahn / underground service
+STR,Urban Transit,Tram / streetcar service
+TRAM,Urban Transit,Tram / streetcar service
+STB,Urban Transit,Stadtbahn / light rail service
+BUS,Bus,Bus service
+Bus,Bus,Bus service
+SEV,Bus / Replacement,Rail replacement bus service
+EV,Bus / Replacement,Replacement transport service
+SCHIENENERSATZVERKEHR,Bus / Replacement,Rail replacement service
+UNKNOWN,Unknown,Missing or unknown train category
+NAN,Unknown,Missing or invalid category value
+NONE,Unknown,Missing or invalid category value

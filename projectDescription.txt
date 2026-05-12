@@ -1,0 +1,30 @@
+Identification of data issues:-
+Each group member should explain at least one important data issue in the dataset
+(for example: missing values, duplicate records, inconsistencies, invalid formats, outliers)
+.
+.
+.
+Data Cleaning and Processing with Tableau Prep:-
+Demonstrate how the data issues were handled using at least 10 transformation steps , including examples such as:
+Handling missing values
+Standardizing formats
+Removing duplicates
+Joining and Union operations
+Pivoting data
+Filtering
+Aggregating
+Splitting columns
+.
+.
+.
+Integration of Python into Tableau Prep:-
+Implement at least two Python-based functions in Tableau Prep
+Explain their purpose
+Show how they improve the data cleaning or processing workflow
+.
+.
+.
+Final Processed Data and Insights:-
+Present the cleaned dataset
+Explain the improvements made
+Provide insights or recommendations based on the processed data

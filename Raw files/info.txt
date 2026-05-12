@@ -1,0 +1,11 @@
+We have two files :-
+1. sample-2026-02
+2. sample-2026-01
+.
+.
+For these two files, I have extracted only 50,000 records as my hardware is poor and in the original dataset, we have millions of records.
+.
+.
+The third files is:-
+3. train_category_lookup.csv
+This file was generated using ChatGPT as I am an Auslander and not too knowledgeable about the workings and naming conventions of DeutscheBahn.

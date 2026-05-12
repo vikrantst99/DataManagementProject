@@ -1,0 +1,8 @@
+Deutsche Bahn Dataset Link:-
+https://huggingface.co/datasets/piebro/deutsche-bahn-data/tree/main/monthly_processed_data
+.
+.
+I have used data for the month of January and February of 2026.
+.
+.
+These files are .parquet files and I have written a code to convert them to csv's which you can find in the python folder.

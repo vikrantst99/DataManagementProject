@@ -1,0 +1,100 @@
+These instructions are STRICTLY FOR WINDOWS ONLY and I DO NOT LIKE APPLE AT ALL.
+So......
+We now look at instructions on how to run the functions using tabpy in the tableau flow:-
+.
+.
+Having a Virtual Enviornment is NECESSARY:-
+Creation:- (ALWAYS TRY INSTALLING TABPY IN THE VIRTUAL ENVIORNMENT)
+1. Go to you project folder:-
+Open command prompt and run:-
+cd "C:\Users\'YourUserName'\Downloads\YourProjectFolderName"
+.
+2. Now create a virtual Enviornment:- (ALWAYS TRY INSTALLING TABPY IN THE VIRTUAL ENVIORNMENT)
+python -m venv .venv
+.
+3. Activate the virtual environment:-
+.venv\Scripts\activate
+After the activation terminal should show something like:-
+(.venv) C:\Users\YourUserName\Downloads\YourProjectFolderName>
+.
+4. Upgrade pip:-
+python -m pip install --upgrade pip
+.
+5. Install the required packages:- (ALWAYS TRY INSTALLING TABPY IN THE VIRTUAL ENVIORNMENT)
+python -m pip install pandas tabpy
+.
+6. I am creating a requirements.txt file too so that it becomes easy to install pre-requisites:-
+pip freeze > requirements.txt
+To install em, just run:- pip install -r requirements.txt
+.
+7. Check the installed packages:-
+python -m pip show pandas
+python -m pip show tabpy
+.
+8. Start tabpy:-
+In the same activated virtual environment, run:-
+tabpy
+Or if your tabpy is installed in some other location (ALWAYS TRY INSTALLING TABPY IN THE VIRTUAL ENVIORNMENT), run:-
+"C:\Users\Vikrant Singh Thakur\PycharmProjects\PythonWorks\.venv\Scripts\tabpy.exe"
+.
+If TabPy starts correctly, the terminal will show several log messages. The important point is that TabPy should be running on:
+
+localhost
+port 9004
+
+This means Tableau Prep can connect to Python using:
+
+Server: localhost
+Port: 9004
+.
+.
+Once this is done, 
+Open the tableau flow "DeutschBahn3.tfl"
+Add a Script step
+
+From the cleaned dataset step:
+
+1. Click the plus + button.
+2. Select Script.
+3. Select Python.
+.
+.
+n the Script step, choose the connection type:
+
+Tableau Python (TabPy) Server
+
+Use these settings:
+
+Server: localhost
+Port: 9004
+.
+.
+Then click:
+
+Sign In
+.
+.
+Use this when you want the summary by:
+
+source_month
+train_type
+
+In the Script step, select the Python file:
+
+dataManagementFunctions.py
+
+Then enter this function name:
+.
+.
+After running, the output should have columns like:
+
+source_month
+train_type
+total_records
+average_minutes
+maximumDelay_minutes
+cancelled
+cancellation_rate_percent
+.
+.
+Do the same for the other function as well. 

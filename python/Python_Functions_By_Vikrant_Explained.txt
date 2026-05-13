@@ -1,0 +1,502 @@
+1. monthly_train_type_delay_summary:-
+.
+It compares the delays by source_month and train_type.
+
+The columns used are:-
+	a. source_month
+	b. train_type
+	c. delay_in_min
+	d. is_canceled
+The function accepts a dataframe as an input which will be coming in from Tableau flow.
+
+In the following, we create a list of the columns that we want to group by:-
+selections = ["source_month", "train_type"]
+
+In the following line:-
+total_records = input_data.groupby(selections).size().reset_index(name="total_records")
+	.groupby(selections)	Groups the table by source_month and train_type
+	.size()			Counts how many rows are in each group
+	.reset_index()		Converts the grouped result back into a normal table
+	name="total_records"	Names the count column total_records
+Example Output:-
+If:-
+ source_month  train_type  delay_in_min 
+ 2026-01       ICE                    5 
+ 2026-01       ICE                   10 
+ 2026-01       RE                     2 
+ 2026-02       ICE                    7 
+
+Then using the aforementioned line we get:-
+ source_month  train_type  total_records  
+ 2026-01       ICE                     2 
+ 2026-01       RE                      1 
+
+The following lines:-
+average = input_data.groupby(selections)["delay_in_min"].mean().reset_index(name="average_minutes")
+maximumDelay = input_data.groupby(selections)["delay_in_min"].max().reset_index(name="maximumDelay_minutes")
+
+Are almost similar except in one we calculate the mean and in the other we calculate the max.
+
+The line:-
+cancelled = input_data.groupby(selections)["is_canceled"].sum().reset_index(name="cancelled")
+Looks into the is_canceled column and selects only the True values, sums it up and returns the sum.
+Only true values are counted because true is 1 and false is 0 so 1+0=1.
+
+In the lines:-
+	finalTable = total_records.merge(average, on=selections)
+	finalTable = finalTable.merge(maximumDelay, on=selections)
+        finalTable = finalTable.merge(cancelled, on=selections)
+We are just merging the average, maximumDelay and cancelled into total_records (which contains the groupby of the two columns) and we store all that in finalTable.
+
+The lines:-
+	finalTable["cancellation_rate_percent"] = (finalTable["cancelled"] / finalTable["total_records"]) * 100
+    	finalTable["average_minutes"] = finalTable["average_minutes"].round(2)
+   	finalTable["cancellation_rate_percent"] = finalTable["cancellation_rate_percent"].round(2)
+Are just formulas.
+
+And in the end, we return the variable.
+.
+.
+.
+.
+2. station_performance_summary:-
+
+It compares the performance of stations using final_station_name.
+
+This function tells us which stations have:
+
+more train records
+higher average delay
+highest maximum delay
+more cancelled train records
+higher cancellation rate
+
+The columns used are:-
+
+a. final_station_name
+b. delay_in_min
+c. is_canceled
+
+The function accepts a dataframe as an input which will be coming in from Tableau flow.
+
+The function name used in Tableau Prep will be:-
+
+station_performance_summary
+
+In the following line, we create a list of the column that we want to group by:-
+
+selections = ["final_station_name"]
+
+In this line:-
+
+selections              A Python variable.
+=                       Stores the value on the right side into the variable on the left side.
+["final_station_name"]  A list containing the column name final_station_name.
+
+Here, we are telling Python that we want to group the data by station name.
+
+So Python will create separate groups like:-
+
+Köln Hbf
+Hamburg Hbf
+Berlin Hbf
+Munich Hbf
+
+In the following line:-
+
+total_records_for_each_stationPythonVariable = input_data.groupby(selections).size().reset_index(name="total_records_for_each_stationPythonVariable")
+
+This line counts how many records are available for each station.
+
+In this line:-
+
+total_records_for_each_stationPythonVariable     A Python variable where we store the result.
+input_data                                       The dataframe coming from Tableau Prep.
+.groupby(selections)                             Groups the table by final_station_name.
+.size()                                          Counts how many rows are in each station group.
+.reset_index()                                   Converts the grouped result back into a normal table.
+name="total_records_for_each_stationPythonVariable"  Names the count column.
+
+Example:-
+
+If the input data is:-
+
+final_station_name   delay_in_min   is_canceled
+Köln Hbf             5              False
+Köln Hbf             10             True
+Hamburg Hbf          2              False
+Köln Hbf             0              False
+Hamburg Hbf          8              False
+
+Then this line gives:-
+
+final_station_name   total_records_for_each_stationPythonVariable
+Köln Hbf             3
+Hamburg Hbf          2
+
+Because:-
+
+Köln Hbf appears 3 times.
+Hamburg Hbf appears 2 times.
+
+The following line:-
+
+average = input_data.groupby(selections)["delay_in_min"].mean().reset_index(name="average_minutes")
+
+calculates the average delay for each station.
+
+In this line:-
+
+average                         A Python variable where we store the average delay table.
+input_data.groupby(selections)  Groups the data by final_station_name.
+["delay_in_min"]                Selects only the delay_in_min column.
+.mean()                         Calculates the average delay.
+.reset_index()                  Converts the grouped result back into a normal table.
+name="average_minutes"          Names the new calculated column average_minutes.
+
+Example:-
+
+If Köln Hbf has delays:-
+
+5, 10, 0
+
+Then the average is:-
+
+(5 + 10 + 0) / 3 = 5
+
+So the output becomes:-
+
+final_station_name   average_minutes
+Köln Hbf             5.00
+
+The following line:-
+
+maximumDelay = input_data.groupby(selections)["delay_in_min"].max().reset_index(name="maximumDelay_minutes")
+
+calculates the maximum delay for each station.
+
+In this line:-
+
+maximumDelay                    A Python variable where we store the maximum delay table.
+input_data.groupby(selections)  Groups the data by final_station_name.
+["delay_in_min"]                Selects only the delay_in_min column.
+.max()                          Finds the highest delay value.
+.reset_index()                  Converts the grouped result back into a normal table.
+name="maximumDelay_minutes"     Names the new calculated column maximumDelay_minutes.
+
+Example:-
+
+If Köln Hbf has delays:-
+
+5, 10, 0
+
+Then the maximum delay is:-
+
+10
+
+So the output becomes:-
+
+final_station_name   maximumDelay_minutes
+Köln Hbf             10
+
+The following line:-
+
+cancelled = input_data.groupby(selections)["is_canceled"].sum().reset_index(name="cancelled")
+
+calculates how many cancelled records each station has.
+
+In this line:-
+
+cancelled                       A Python variable where we store the cancellation count table.
+input_data.groupby(selections)  Groups the data by final_station_name.
+["is_canceled"]                 Selects only the is_canceled column.
+.sum()                          Adds the values in the is_canceled column.
+.reset_index()                  Converts the grouped result back into a normal table.
+name="cancelled"                Names the new calculated column cancelled.
+
+This works because:-
+
+True = 1
+False = 0
+
+So if the values are:-
+
+False, True, False
+
+Then Python sees it like:-
+
+0 + 1 + 0 = 1
+
+So the cancelled count is:-
+
+1
+
+Important note:-
+
+This does not exactly “select only True values”.
+It adds the column values, and because True behaves like 1, it gives us the count of cancelled records.
+
+In the following line:-
+
+finalTable = total_records_for_each_stationPythonVariable.merge(average, on=selections)
+
+we merge the total records table with the average delay table.
+
+In this line:-
+
+finalTable                                      A Python variable where we store the final combined table.
+total_records_for_each_stationPythonVariable   The table containing total records for each station.
+.merge(average, on=selections)                 Merges it with the average table using final_station_name.
+on=selections                                  Means both tables are matched using final_station_name.
+
+Example:-
+
+Before merge:-
+
+Table 1:
+
+final_station_name   total_records_for_each_stationPythonVariable
+Köln Hbf             3
+Hamburg Hbf          2
+Table 2:
+
+final_station_name   average_minutes
+Köln Hbf             5.00
+Hamburg Hbf          5.00
+
+After merge:-
+
+final_station_name   total_records_for_each_stationPythonVariable   average_minutes
+Köln Hbf             3                                             5.00
+Hamburg Hbf          2                                             5.00
+
+The following line:-
+
+finalTable = finalTable.merge(maximumDelay, on=selections)
+
+adds the maximum delay table into finalTable.
+
+In this line:-
+
+finalTable                       The table we already created.
+.merge(maximumDelay, on=selections)  Adds the maximumDelay table using final_station_name.
+
+After this line, the table has:-
+
+final_station_name
+total_records_for_each_stationPythonVariable
+average_minutes
+maximumDelay_minutes
+
+The following line:-
+
+finalTable = finalTable.merge(cancelled, on=selections)
+
+adds the cancelled records table into finalTable.
+
+In this line:-
+
+finalTable                    The table we already created.
+.merge(cancelled, on=selections)  Adds the cancelled table using final_station_name.
+
+After this line, the table has:-
+
+final_station_name
+total_records_for_each_stationPythonVariable
+average_minutes
+maximumDelay_minutes
+cancelled
+
+The following line:-
+
+finalTable["cancellation_rate_percent"] = (finalTable["cancelled"] / finalTable["total_records_for_each_stationPythonVariable"]) * 100
+
+calculates the cancellation rate percentage.
+
+The formula is:-
+
+cancellation rate = cancelled / total records * 100
+
+In this line:-
+
+finalTable["cancellation_rate_percent"]                 Creates a new column called cancellation_rate_percent.
+=                                                        Stores the calculated value into that column.
+finalTable["cancelled"]                                  Uses the cancelled column.
+finalTable["total_records_for_each_stationPythonVariable"] Uses the total records column.
+ /                                                       Divides cancelled by total records.
+ * 100                                                   Converts the result into percentage.
+
+Example:-
+
+If:-
+
+cancelled = 5
+total records = 100
+
+Then:-
+
+5 / 100 * 100 = 5%
+
+So cancellation rate becomes:-
+
+5
+
+The following line:-
+
+finalTable["average_minutes"] = finalTable["average_minutes"].round(2)
+
+rounds the average delay to 2 decimal places.
+
+In this line:-
+
+finalTable["average_minutes"]       Selects the average_minutes column.
+=                                   Stores the rounded result back into the same column.
+.round(2)                           Rounds the number to 2 decimal places.
+
+Example:-
+
+5.67891
+
+becomes:-
+
+5.68
+
+The following line:-
+
+finalTable["cancellation_rate_percent"] = finalTable["cancellation_rate_percent"].round(2)
+
+rounds the cancellation rate to 2 decimal places.
+
+In this line:-
+
+finalTable["cancellation_rate_percent"]    Selects the cancellation_rate_percent column.
+=                                          Stores the rounded result back into the same column.
+.round(2)                                  Rounds the number to 2 decimal places.
+
+Example:-
+
+3.45678
+
+becomes:-
+
+3.46
+
+The following line:-
+
+finalTable = finalTable[finalTable["total_records_for_each_stationPythonVariable"] >= 100]
+
+filters the table and keeps only stations with at least 100 records.
+
+In this line:-
+
+finalTable                                                   The final table.
+finalTable["total_records_for_each_stationPythonVariable"]   Selects the total records column.
+>= 100                                                       Checks whether the station has 100 or more records.
+finalTable[...]                                              Keeps only the rows where the condition is True.
+
+This is done because we do not want to analyze stations with very few records.
+
+Example:-
+
+station_name   total_records
+Station A      2
+Station B      150
+Station C      300
+
+After this filter:-
+
+station_name   total_records
+Station B      150
+Station C      300
+
+Station A is removed because it has only 2 records.
+
+This makes the analysis more reliable.
+
+The following line:-
+
+finalTable = finalTable.rename(columns={"final_station_name": "station_name_for_analysis"})
+
+renames the station column.
+
+In this line:-
+
+finalTable                                      The final table.
+.rename()                                       Used to rename columns.
+columns={...}                                   Tells Python which column name to change.
+"final_station_name"                            Old column name.
+"station_name_for_analysis"                     New column name.
+
+So this changes:-
+
+final_station_name
+
+into:-
+
+station_name_for_analysis
+
+This makes the final output easier to understand in the report.
+
+The following line:-
+
+finalTable = finalTable.sort_values(by="average_minutes", ascending=False)
+
+sorts the final table by average delay.
+
+In this line:-
+
+finalTable                  The final table.
+.sort_values()              Sorts the table.
+by="average_minutes"        Sorts using the average_minutes column.
+ascending=False             Means highest value comes first.
+
+So the station with the highest average delay comes at the top.
+
+Example before sorting:-
+
+station_name   average_minutes
+Station A      2.50
+Station B      8.20
+Station C      5.10
+
+After sorting:-
+
+station_name   average_minutes
+Station B      8.20
+Station C      5.10
+Station A      2.50
+
+This helps us quickly see which stations have the worst average delay.
+
+Overall explanation:-
+
+The function station_performance_summary analyzes train station performance.
+
+It groups the data by:-
+
+final_station_name
+
+Then it calculates:-
+
+1. total records for each station
+2. average delay for each station
+3. maximum delay for each station
+4. cancelled records for each station
+5. cancellation rate percentage for each station
+
+After that, it keeps only those stations where the total number of records is at least 100.
+
+This is done because stations with very few records can give misleading results.
+
+Finally, it sorts the table by average delay in descending order, so the stations with the highest average delay appear first.
+
+Final output columns:-
+
+The final output table will have:-
+
+station_name_for_analysis
+total_records_for_each_stationPythonVariable
+average_minutes
+maximumDelay_minutes
+cancelled
+cancellation_rate_percent
